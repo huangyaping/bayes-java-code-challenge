@@ -2,6 +2,7 @@ package gg.bayes.challenge.parser;
 
 import gg.bayes.challenge.persistence.model.CombatLogEntryEntity;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,15 +22,15 @@ public class KillingHeroesEvent extends DotaEvent {
         entity.setType(CombatLogEntryEntity.Type.HERO_KILLED);
     }
 
-    public static KillingHeroesEvent fromLog(String log) {
+    public static Optional<DotaEvent> fromLog(String log) {
         Matcher matcher = logPattern.matcher(log);
         if (matcher.find()) {
             String time = matcher.group(1);
             String killed = matcher.group(2);
             String hero = matcher.group(3);
-            return new KillingHeroesEvent(time, hero, killed);
+            return Optional.of(new KillingHeroesEvent(time, hero, killed));
         }
-        return null;
+        return Optional.empty();
     }
 
 }
