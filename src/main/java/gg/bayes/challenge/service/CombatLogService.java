@@ -41,12 +41,7 @@ public class CombatLogService {
     }
 
     public List<HeroKills> getMatch(Long matchId) {
-        List<Tuple> list = combatLogEntryRepository.findActorKillsByMatchId(matchId,
-                CombatLogEntryEntity.Type.HERO_KILLED.toString());
-
-        return mapList(list, tuple -> new HeroKills(tuple.get("actor", String.class),
-                        tuple.get("kills", BigInteger.class).intValue())
-        );
+        return combatLogEntryRepository.findActorKillsByMatchId(matchId, CombatLogEntryEntity.Type.HERO_KILLED);
     }
 
     private <T> List<T> mapList(List<Tuple> list, Function<Tuple, T> mapFunction) {
